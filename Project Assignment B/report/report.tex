@@ -1,0 +1,69 @@
+\documentclass{acm_proc_article-sp}
+\usepackage[utf8]{inputenc}
+\usepackage{hyperref}
+\begin{document}
+
+\title{The Elephant Man in The Room: An analysis of good and bad movies}
+\subtitle{[Project Assignment B in 02806: Social Data Analysis and Visualizations]
+\titlenote{A website showcasing the project is available at \url{inserturl.dk}}}
+\numberofauthors{1}
+\author
+{
+	\alignauthor Søren Howe Gersager\\
+       \affaddr{s094557}\\
+       \email{syrelyre@gmail.com}
+}
+\maketitle
+\begin{abstract}
+This report and the associated website\cite{website} is the result of the final project in DTU Course 02806: Social Data Analysis and Visualizations. The course subject was both gathering data and analyzing data using visualizations, machine learning, sentiment analysis and network theory.\\
+This final project investigates potential differences in movies with high IMDB ratings and low IMDB ratings.
+\end{abstract}
+
+\section{Motivation}
+Our dataset is created from the top and bottom 1000 movies sorted by IMDB rating\cite{imdb-top}\cite{imdb-bottom}. The motivation for the analysis stems from a personal interest in movies, and being curious on what makes a movie good or bad and perhaps eliminating prejudice especially regarding bad movies and their characteristics. An example is the comedy genre, it's our belief that people often have the notion that a lot of bad comedies and romantic comedies exist. By doing the analysis we can investigate whether that hypothesis holds true or not. It is our goal to either confirm or reject the end-users belief in what makes a movie good or bad.  
+\section{Implementation}
+For creating the dataset used in the analysis, we used BeautifulSoup\cite{BS4} to scrape the top 1000 movies and bottom 1000 movie pages of IMDB\cite{IMDB}. Afterwards we used the ID's of the movies extracted from IMDB to get more data about each movie from The Open Movie Database API\cite{OMDB}.\\ The data exposed through the API is: title, release date, MPAA-rating, runtime, genre, director, writers, names of first-billed actors, language spoken, country of origin, short description of plot, awards received, poster image url, Metascore, IMDB rating and number of imdb votes.   
+\section{Theory}
+We have used several of the tools learned in the course for the website and report, below is a list of tools we have used.\\
+\subsection{Visualization}
+We have used matplotlib for visualizing differences between good and bad movies. 
+\subsection{Machine learning}
+We have used machine learning with cross-validation to try to classify good movies from bad movies. We tried this with several datasets: One dataset with basic features of all 1389 movies, one with a bag of words representations of 100 movie subtitles and one with the ANEW scores of the bag of words representations. We used several models: Decision Tree, Naive Bayes and Logistic Regression. We used K-fold cross-validation with $k=10$.
+
+\subsection{Natural Language Processing}
+We have used sentiment analysis by calculating the ANEW scores for each movie subtitle by using its bag of words representation. From this we tried to visualize the scores to find differences, however we did not find any significant differences between the two groups.\\
+\subsection{Python and relevant libraries}
+For performing the analysis we have relied on Python, its standard library and the external libraries: scikit-learn, requests, beautifulsoup.
+
+\section{Discussion}
+
+\bibliographystyle{abbrv}
+\bibliography{sigproc}
+\begin{thebibliography}{9}
+
+\bibitem{website}
+\url{http://blank.dk}
+\textit{Website showcase}
+
+\bibitem{imdb-top}
+\url{http://www.imdb.com/search/title?=&groups=top_1000&sort=user_rating,desc&view=simple}
+\textit{IMDB Top 1000 movies}
+
+\bibitem{imdb-bottom}
+\url{http://www.imdb.com/search/title?=&groups=bottom_1000&sort=user_rating,asc&start=301&view=simple}
+\textit{IMDB Bottom 1000 movies}
+
+\bibitem{BS4}
+\url{http://www.crummy.com/software/BeautifulSoup/}
+\textit{BeautifulSoup}
+
+\bibitem{OMDB}
+\url{http://www.omdbapi.com/}
+\textit{The Open Movie Database API}
+
+\bibitem{IMDB}
+\url{http://www.imdb.com/}
+\textit{The Internet Movie Database}
+
+\end{thebibliography}
+\end{document}
