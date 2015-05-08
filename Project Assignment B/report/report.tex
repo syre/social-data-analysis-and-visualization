@@ -1,11 +1,11 @@
 \documentclass{acm_proc_article-sp}
 \usepackage[utf8]{inputenc}
-\usepackage{hyperref}
+\usepackage[draft]{hyperref}
 \begin{document}
 
 \title{The Elephant Man in The Room: An analysis of good and bad movies}
 \subtitle{[Project Assignment B in 02806: Social Data Analysis and Visualizations]
-\titlenote{A website showcasing the project is available at \url{inserturl.dk}}}
+\titlenote{A website showcasing the project is available at \url{https://goo.gl/IIlRT8}}}
 \numberofauthors{1}
 \author
 {
@@ -22,27 +22,37 @@ This final project investigates potential differences in movies with high IMDB r
 \section{Motivation}
 Our dataset is created from the top and bottom 1000 movies sorted by IMDB rating\cite{imdb-top}\cite{imdb-bottom}. The motivation for the analysis stems from a personal interest in movies, and being curious on what makes a movie good or bad and perhaps eliminating prejudice especially regarding bad movies and their characteristics. An example is the comedy genre, it's our belief that people often have the notion that a lot of bad comedies and romantic comedies exist. By doing the analysis we can investigate whether that hypothesis holds true or not. It is our goal to either confirm or reject the end-users belief in what makes a movie good or bad.  
 \section{Implementation}
-For creating the dataset used in the analysis, we used BeautifulSoup\cite{BS4} to scrape the top 1000 movies and bottom 1000 movie pages of IMDB\cite{IMDB}. Afterwards we used the ID's of the movies extracted from IMDB to get more data about each movie from The Open Movie Database API\cite{OMDB}.\\ The data exposed through the API is: title, release date, MPAA-rating, runtime, genre, director, writers, names of first-billed actors, language spoken, country of origin, short description of plot, awards received, poster image url, Metascore, IMDB rating and number of imdb votes.   
+Outlined below is details specific to implementations and practical tools used.
+\subsection{Website}
+For creating the website we simply used a IPython Notebook for doing the calculations and visualizations, because we liked its simplicity and features. We realize the website is meant for end-users and they might not understand the code being written, however we supply the code with descriptions and text throughout to supply the visualizations and analyzes.
+\subsection{Webscraping}
+For creating the dataset used in the analysis, we used BeautifulSoup\cite{BS4} to scrape the top 1000 movies and bottom 1000 movie pages of IMDB\cite{IMDB}. Afterwards we used the ID's of the movies extracted from IMDB to get more data about each movie from The Open Movie Database API\cite{OMDB}.\\ The data exposed through the API is: title, release date, MPAA-rating, runtime, genre, director, writers, names of first-billed actors, language spoken, country of origin, short description of plot, awards received, poster image url, Metascore, IMDB rating and number of imdb votes.
+
 \section{Theory}
-We have used several of the tools learned in the course for the website and report, below is a list of tools we have used.\\
+We have used several of the tools learned in the course for the website and report, below is a list of tools we have used.
 \subsection{Visualization}
-We have used matplotlib for visualizing differences between good and bad movies. 
+We have used matplotlib and basemap for visualizing differences between good and bad movies. 
 \subsection{Machine learning}
-We have used machine learning with cross-validation to try to classify good movies from bad movies. We tried this with several datasets: One dataset with basic features of all 1389 movies, one with a bag of words representations of 100 movie subtitles and one with the ANEW scores of the bag of words representations. We used several models: Decision Tree, Naive Bayes and Logistic Regression. We used K-fold cross-validation with $k=10$.
+We have used machine learning with cross-validation to try to classify good movies from bad movies. We tried this with several datasets: One dataset with basic features of all 1389 movies, one with a bag of words representations of 100 movie subtitles and one with the ANEW scores of the bag of words representations. We used several models: Decision Tree, Multinomial Naive Bayes and Logistic Regression. We used K-fold cross-validation with $k=10$ to validate the models.
 
 \subsection{Natural Language Processing}
-We have used sentiment analysis by calculating the ANEW scores for each movie subtitle by using its bag of words representation. From this we tried to visualize the scores to find differences, however we did not find any significant differences between the two groups.\\
+We have tried to use sentiment analysis to compare the two groups. We did this by calculating the ANEW scores\cite{anew} for the bag-of-words representations of subtitles for a random selection of 50 good and 50 bad movies. From this we tried to visualize the average scores to find differences, however we did not find any significant differences between the two groups.\\
+We also tried to use the ANEW dataset for prediction, however cross-validation yielded a test-error of 50\% so this was not better than simply predicting all samples to be the most commonly found class. \\
 \subsection{Python and relevant libraries}
-For performing the analysis we have relied on Python, its standard library and the external libraries: scikit-learn, requests, beautifulsoup.
+For performing the analysis we have relied on Python, its standard library and the external libraries: matplotlib, scikit-learn, requests, beautifulsoup, basemap.
 
 \section{Discussion}
+In this section we reflect on and discuss the analysis we have done and what could be done in future work.\\\\
+Initially we wanted to use the Rotten Tomatoes API\cite{tomatoes} for retrieving the movie data. This was to not be burdened by just a maximum of 2000 movies from the IMDB top and bottom pages, and would also allow us to select more criteria for what makes a movie good or bad, like smaller or bigger vote-count or ratings. However after requesting an API key we got a reply back several days later that we were not granted access because they only offered access to domestic students. Future work could be spent on creating a bigger dataset of movies using either the Rotten Tomatoes API or scraping IMDB.\\\\
+
+Furthermore if we had more time we would like to scrape subtitles for every movie and perhaps combine them with our feature dataset to get a larger training set and perhaps more succesfully predict good from bad.
 
 \bibliographystyle{abbrv}
 \bibliography{sigproc}
 \begin{thebibliography}{9}
 
 \bibitem{website}
-\url{http://blank.dk}
+\url{https://goo.gl/IIlRT8}
 \textit{Website showcase}
 
 \bibitem{imdb-top}
@@ -64,6 +74,14 @@ For performing the analysis we have relied on Python, its standard library and t
 \bibitem{IMDB}
 \url{http://www.imdb.com/}
 \textit{The Internet Movie Database}
+
+\bibitem{tomatoes}
+\url{http://developer.rottentomatoes.com/docs}
+\textit{Rotten Tomatoes API}
+
+\bibitem{anew}
+\url{http://crr.ugent.be/papers/Ratings_Warriner_et_al.csv}
+\textit{ANEW data}
 
 \end{thebibliography}
 \end{document}
