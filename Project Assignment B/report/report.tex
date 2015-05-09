@@ -15,8 +15,8 @@
 }
 \maketitle
 \begin{abstract}
-This report and the associated website\cite{website} is the result of the final project in DTU Course 02806: Social Data Analysis and Visualizations. The course subject was both gathering data and analyzing data using visualizations, machine learning, sentiment analysis and network theory.\\
-This final project investigates potential differences in movies with high IMDB ratings and low IMDB ratings, with respect to genre, runtime, release year, actors involved and other features. It also makes use of self made datasets of features as well as movie subtitles.
+This report and the associated website\cite{website} is the result of the final project in DTU Course 02806: Social Data Analysis and Visualizations. The course subject was both gathering and analyzing data using visualizations, machine learning, sentiment analysis and network theory.\\
+This final project investigates potential differences in movies with high IMDB ratings and low IMDB ratings, with respect to genre, runtime, release year, actors involved and other features. It also makes use of datasets created using the beforementioned features as well as movie subtitles to try to predict good movies from bad.
 \end{abstract}
 
 \section{Motivation}
@@ -24,18 +24,18 @@ The motivation for the analysis stems from a personal interest in movies, and be
 \section{Implementation}
 Outlined below is details specific to implementations and practical tools used.
 \subsection{Website}
-For creating the website we simply used a IPython Notebook for doing the calculations and visualizations, because we liked its simplicity and features. We realize the website is meant for end-users and they might not understand the code being written, however we the important things are the visualizations and analyzes produced and descriptions and text throughout.
+For creating the website we simply used a IPython Notebook for doing the calculations and visualizations, because we like its simplicity and features. We realize the website is meant for end-users and they might not understand the code being written, however we have tried to explain the concepts used and the visualizations produced with descriptions and text throughout.
 \subsection{Webscraping}
 For creating the dataset used in the analysis, we used BeautifulSoup\cite{BS4} to scrape the top 1000 movies and bottom 1000 movie pages of IMDB\cite{IMDB}. Afterwards we used the ID's of the movies extracted from IMDB to get more data about each movie from The Open Movie Database API\cite{OMDB}.\\ The data exposed through the API is: title, release date, MPAA-rating, runtime, genre, director, writers, names of first-billed actors, language spoken, country of origin, short description of plot, awards received, poster image url, Metascore, IMDB rating and number of imdb votes.
 Of the features we were able to extract, we discarded Metascore, IMDB rating, vote count, plot description and poster image url because we believe they are not relevant.\\\\
-Subtitles were downloaded from Subscene.com\cite{subscene} and were english non-SDH subtitles.
+The movie dialogue is extracted from subtitles downloaded from Subscene.com\cite{subscene} and were english non-SDH subtitles.
 
 \section{Theory}
 We have used several of the tools learned in the course for the website and report, below is a list of tools we have used.
 \subsection{Visualization}
-We have used matplotlib and basemap for visualizing differences between good and bad movies. 
+We have used matplotlib and basemap for visualizing differences between good and bad movies using barcharts, histograms, scatterplots and maps.
 \subsection{Machine learning}
-We have used machine learning with cross-validation to try to classify good movies from bad movies. We tried this with several datasets: One dataset with basic features of all 1389 movies, one with a bag of words representations of 100 movie subtitles and one with the ANEW scores of the bag of words representations. We used several models: Decision Tree, Multinomial Naive Bayes and Logistic Regression. We used K-fold cross-validation with $k=10$ to validate the models.
+We have used machine learning with cross-validation to try to classify good movies from bad movies. We tried this with several datasets: One dataset with basic features of all 1389 movies, one with a bag of words representations of 100 movie subtitles and one with the ANEW scores of the bag of words representations. We used several models: Decision Tree, Multinomial Naive Bayes and Logistic Regression. We used K-fold cross-validation with $k=10$ to validate the models. We were somewhat succesful in predicting good and bad with a test error of 30\% for the bag of words representations and $~13.75\%$ for the basic feature data set.
 
 \subsection{Natural Language Processing}
 We have tried to use sentiment analysis to compare the two groups. We did this by calculating the ANEW scores\cite{anew} for the bag-of-words representations of subtitles for a random selection of 50 good and 50 bad movies. From this we tried to visualize the average scores to find differences, however we did not find any significant differences between the two groups.\\
@@ -44,14 +44,17 @@ We also tried to use the ANEW dataset for prediction, however cross-validation p
 For performing the analysis we have relied on Python, its standard library and the external libraries: matplotlib, scikit-learn, requests, beautifulsoup, basemap.
 
 \section{Discussion}
-In this section we reflect on and discuss the analysis we have done and what could be done in future work.\\\\
+In this section we reflect on and discuss the analysis we have done and what could be done in future work.
 
 Initially we wanted to use the Rotten Tomatoes API\cite{tomatoes} for retrieving the movie data. This was to not be burdened by just a maximum of 2000 movies from the IMDB top and bottom pages, and would also allow us to select more criteria for what makes a movie good or bad, like smaller or bigger vote-count or ratings. However after requesting an API key we got a reply back several days later that we were not granted access because they only offered access to domestic students. Future work could be spent on creating a bigger dataset of movies using either the Rotten Tomatoes API or scraping IMDB.\\
+
+On the website we visualize the origin countries of different movies, we were unsure of if we should use the Mercator projection because of the large distortion at high altitudes, however it was the one we went with.\\ 
+On beforementioned map, the good and bad markers are overlayed and a lot of movies come from Europe which is a relatively small area on the map, therefore the markers can be difficult to see.\\\
 
 We realize the sample size of the movie subtitle dataset is small, if we had more time we would like to scrape subtitles for every movie and combine them with our feature dataset to get a larger training set and perhaps more succesfully predict good from bad.
 
 For further work, the networks between actors, writers and directors can also be investigated, it would be interesting to know if good actors are more likely to collaborate with other good actors, writers or directors and vice-versa.
-It would also be interesting to find out if there is any correlation between the budget of a movie and its success.
+It would also be interesting to find out if there is any correlation between the budget of a movie and its goodness.
 
 \section{Conclusion}
 
